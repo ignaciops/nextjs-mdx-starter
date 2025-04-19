@@ -4,14 +4,42 @@
 
 import * as Sentry from "@sentry/nextjs";
 
+let replaysOnErrorSampleRate = 0
+let tracesSampleRate = 0.1
+ 
+if (process.env.NODE_ENV === 'production') {
+    replaysOnErrorSampleRate = 1
+}
+ 
+if (process.env.NODE_ENV === 'development') {
+    tracesSampleRate = 0
+}
+
 Sentry.init({
   dsn: "https://5dc339089c8534193e1ba793f16588ae@o4509180916072448.ingest.us.sentry.io/4509180924067840",
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+  tracesSampleRate: tracesSampleRate,
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
+
+  replaysOnErrorSampleRate: replaysOnErrorSampleRate,
+   
+      // on free plan lower (as limited to 50 per month)
+      // if you have a paid plan set it higher
+      replaysSessionSampleRate: 0,
+   
+      // You can remove this option if you're not planning to use the Sentry Session Replay feature:
+      integrations: [
+          Sentry.replayIntegration({
+              // Additional Replay configuration goes in here, for example:
+              maskAllText: true,
+              blockAllMedia: true,
+          }),
+      ],
+   
+      environment: process.env.NODE_ENV ? process.env.NODE_ENV : '',
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
