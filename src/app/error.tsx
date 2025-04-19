@@ -1,5 +1,6 @@
 'use client' // Error components must be Client Components
  
+import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
  
 interface ErrorBoundaryProps {
@@ -14,7 +15,7 @@ export default function Error({
  
     useEffect(() => {
         // simulate logging the error
-        console.error(error)
+        Sentry.captureException(error)
     }, [error])
  
     return (
