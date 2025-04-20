@@ -1,11 +1,14 @@
 import eslintPlugin from "@eslint/js";
 import tseslint, { configs as tseslintConfigs } from 'typescript-eslint';
 import type { FlatConfig } from '@typescript-eslint/utils/ts-eslint';
+// @ts-expect-error this package has no types
 import importPlugin from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import jsxA11yPlugin from 'eslint-plugin-jsx-ally';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+// @ts-expect-error this package has no types
 import nextPlugin from '@next/eslint-plugin-next';
+import * as mdxPlugin from 'eslint-plugin-mdx';
 
 
 const eslintConfig = [
@@ -23,6 +26,7 @@ const ignoresConfig = [
       '.next/',
       '.vscode/',
       'public',
+      'tests/eslint/',
     ]
   },
 ] as FlatConfig.Config[]
@@ -88,7 +92,7 @@ const nextConfig = [
             'jsx-a11y/aria-unsupported-elements': 'warn',
             'jsx-a11y/role-has-required-aria-props': 'warn',
             'jsx-a11y/role-supports-aria-props': 'warn',
-        },
+        } as FlatConfig.Rules,
         settings: {
             'react': {
                 version: 'detect',
@@ -103,9 +107,35 @@ const nextConfig = [
     }
 ] as FlatConfig.Config[]
 
+const mdxConfig = [
+  // https://github.com/mdx-js/eslint-mdx/blob/d6fc093fb32ab58fb226e8cf42ac77399b8a4758/README.md#flat-config
+  {
+      name: 'custom/mdx/recommended',
+      files: ['**/*.mdx'],
+      ...mdxPlugin.flat,
+      processor: mdxPlugin.createRemarkProcessor({
+          // I disabled linting code blocks
+          // as I was having performance issues
+          lintCodeBlocks: false,
+          languageMapper: {},
+      }),
+  },
+  {
+      name: 'custom/mdx/code-blocks',
+      files: ['**/*.mdx'],
+      ...mdxPlugin.flatCodeBlocks,
+      rules: {
+          ...mdxPlugin.flatCodeBlocks.rules,
+          'no-var': ['error'],
+          'prefer-const': ['error'],
+      },
+  },
+]
+
 export default [
   ...eslintConfig,
   ...ignoresConfig,
   ...tseslintConfig,
   ...nextConfig,
-] satisfies FlatConfig.Config[]
+  ...mdxConfig,
+] as FlatConfig.Config[]
