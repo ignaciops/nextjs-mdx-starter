@@ -9,7 +9,7 @@
         "typescript",
         "typescriptreact"
     ],
-    "eslint.options": {
-        "flags": ["unstable_ts_config"]
+    "files.associations": {
+        "*.mdx": "markdown"
     }
 }
