@@ -25,8 +25,8 @@ const ignoresConfig = [
     ignores: [
       '.next/',
       '.vscode/',
-      'public',
-      'tests/eslint/',
+      'src/public',
+      'src/tests/eslint/',
     ]
   },
 ] as FlatConfig.Config[]
@@ -61,22 +61,22 @@ const nextConfig = [
         plugins: {
             'react': reactPlugin,
             'jsx-a11y': jsxA11yPlugin,
-            /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+             
             'react-hooks': reactHooksPlugin,
             '@next/next': nextPlugin,
             'import': importPlugin,
-            /* eslint-enable @typescript-eslint/no-unsafe-assignment */
+             
         },
         rules: {
             ...reactPlugin.configs.recommended.rules,
             ...reactPlugin.configs['jsx-runtime'].rules,
-            /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+             
             ...reactHooksPlugin.configs.recommended.rules,
             ...nextPlugin.configs.recommended.rules,
             // this is the nextjs strict mode
             ...nextPlugin.configs['core-web-vitals'].rules,
             ...importPlugin.configs.recommended.rules,
-            /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+             
             //...jsxA11yPlugin.configs.recommended.rules,
             // OR more strict a11y rules
             ...jsxA11yPlugin.configs.strict.rules,
