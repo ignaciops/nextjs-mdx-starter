@@ -25,9 +25,6 @@ const nextConfig = (phase: string)  => {
     experimental: {
       typedRoutes: true,
     },
-    eslint: {
-      ignoreDuringBuilds: true,
-    },
     headers: async () => {
       return [
         {
@@ -38,6 +35,13 @@ const nextConfig = (phase: string)  => {
     },
     // configure 'pageExtensions' to include MDX files
     pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx', 'md'],
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
+    images: {
+      formats: ['image/avif', 'image/webp'],
+      deviceSizes: [384, 640, 750, 828, 1080, 1200, 1920, 2176, 3840],
+    },
   };
 
   return withMDX(nextConfigOptions)
