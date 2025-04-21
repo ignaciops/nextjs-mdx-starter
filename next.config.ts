@@ -1,17 +1,41 @@
 import {withSentryConfig} from "@sentry/nextjs";
-import type { NextConfig } from "next";
-import { PHASE_DEVELOPMENT_SERVER } from "next/dist/shared/lib/constants";
+// import type { NextConfig } from "next";
+import { PHASE_DEVELOPMENT_SERVER } from "next/dist/shared/lib/constants.js";
 import createMdx from '@next/mdx';
 import rehypeMdxImportMedia from "rehype-mdx-import-media";
+import rehypePrettyCode from "rehype-pretty-code";
+import { transformerNotationDiff } from "@shikijs/transformers";
 
-const nextConfig = (phase: string)  => {
+const nextConfig = (phase/*: string*/)  => {
+
+  /** @type {import('rehype-pretty-code').Options} */
+  const rehypePrettyCodeOptions = {
+    theme: 'dracula',
+    keepBackgroud:false,
+    defaultLang: {
+      block: 'js',
+      inline: 'js',
+    },
+    tokensMap: {
+      fn: 'entity.name.function',
+      cmt: 'comment',
+      str: 'string',
+      var: 'entity.name.variable',
+      obj: 'variable.other.object',
+      prop: 'meta.property.object',
+      int: 'constant.numeric',
+  },
+    transformers: [transformerNotationDiff({
+      matchAlgorithm: 'v3',
+    })],
+  }
 
   const withMDX = createMdx({
     extension: /\.mdx?$/,
     options: {
       // optional remark and rehype plugins
       remarkPlugins: [],
-      rehypePlugins: [rehypeMdxImportMedia],
+      rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], rehypeMdxImportMedia],
     },
   })
 

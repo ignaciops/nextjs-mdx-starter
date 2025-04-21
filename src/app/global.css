@@ -131,3 +131,82 @@ h6 {
     height: 1em;
     vertical-align: -.125em;
 }
+
+[data-rehype-pretty-code-figure],
+[data-rehype-pretty-code-figure]>pre {
+    margin: 0;
+    padding: 0;
+}
+ 
+[data-rehype-pretty-code-figure]>pre {
+    width: 100%;
+    overflow: auto;
+    padding: var(--spacing);
+}
+
+/* recommended by https://rehype-pretty-code.netlify.app/ */
+code[data-line-numbers] {
+    counter-reset: line;
+}
+ 
+code[data-line-numbers]>[data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+ 
+    /* Other styling */
+    display: inline-block;
+    width: 1rem;
+    margin-right: 2rem;
+    text-align: right;
+    color: gray;
+}
+ 
+code[data-line-numbers-max-digits="2"]>[data-line]::before {
+    width: 2rem;
+}
+ 
+code[data-line-numbers-max-digits="3"]>[data-line]::before {
+    width: 3rem;
+}
+
+/* code blocks custom styling */
+[data-line] {
+    border-left-width: 2px;
+    border-left-style: solid;
+    border-left-color: transparent;
+}
+ 
+[data-highlighted-line] {
+    background-color: #58404c;
+    border-left-color: #d6277f;
+}
+
+[data-highlighted-line][data-highlighted-line-id="errorLine"] {
+    background-color: #6b2424;
+    border-left-color: #ff003d;
+}
+
+[data-highlighted-chars] {
+    background-color: #432936;
+}
+
+[data-line].remove {
+    background-color: #852424;
+    border-left-color: #ff0000;
+}
+ 
+[data-line].add {
+    background-color: #248531;
+    border-left-color: #18c218;
+}
+
+/* inline code custom styling */
+[data-rehype-pretty-code-figure]>code {
+    border-radius: 5px;
+    padding: 0 4px;
+    background-color: #27162b;
+}
+ 
+[data-rehype-pretty-code-figure]>code [data-line] {
+    padding: 0px;
+}
