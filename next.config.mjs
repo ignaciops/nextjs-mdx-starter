@@ -8,6 +8,7 @@ import { transformerNotationDiff } from "@shikijs/transformers";
 import rehypeSlug from "rehype-slug";
 import { remarkTableOfContents } from "remark-table-of-contents";
 
+/** @type {import('next').NextConfig} */
 const nextConfig = (phase/*: string*/)  => {
 
   /** @type {import('rehype-pretty-code').Options} */
@@ -56,7 +57,7 @@ const nextConfig = (phase/*: string*/)  => {
     console.log('happy dev session ;)')
   }
 
-  const nextConfigOptions: NextConfig = {
+  const nextConfigOptions/*NextConfig */= {
     reactStrictMode: true,
     poweredByHeader: false,
     experimental: {
@@ -85,7 +86,7 @@ const nextConfig = (phase/*: string*/)  => {
 
 }
 
-const securityHeadersConfig = (phase: string) => {
+const securityHeadersConfig = (phase/*: string*/) => {
  
   const cspReportOnly = true
 
