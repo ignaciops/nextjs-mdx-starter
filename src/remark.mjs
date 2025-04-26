@@ -10,9 +10,14 @@ import remarkLintNoUndefinedReferences from 'remark-lint-no-undefined-references
 import remarkLintLinkTitleStyle from 'remark-lint-link-title-style'
 import remarkLintMaximumLineLength from 'remark-lint-maximum-line-length'
 import remarkLintListItemSpacing from 'remark-lint-list-item-spacing'
+import remarkLintNoLiteralUrls from 'remark-lint-no-literal-urls'
+
+import remarkGfm from 'remark-gfm'
  
 const config = {
     plugins: [
+        // first the plugins
+        remarkGfm,
         // presets
         remarkPresetLintRecommended,
         remarkPresetLintConsistent,
@@ -30,6 +35,9 @@ const config = {
         [remarkLintMaximumLineLength, false],
         // https://www.npmjs.com/package/remark-lint-list-item-spacing
         [remarkLintListItemSpacing, false],
+        // https://www.npmjs.com/package/remark-lint-no-literal-urls
+        // disable rule as we have gfm autolink support
+        [remarkLintNoLiteralUrls, false],
     ]
 }
  

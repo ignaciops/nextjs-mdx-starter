@@ -5,6 +5,8 @@ import type { Route } from 'next'
 import BaseImage from '@/components/base/Image'
 import type { ImageProps } from 'next/image'
 import TocHighlight from './components/toc/Highlight'
+import BaseCheckbox from '@/components/base/Checkbox'
+
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any
@@ -13,6 +15,8 @@ import TocHighlight from './components/toc/Highlight'
  
 type ListPropsType = ComponentPropsWithoutRef<'ul'>
 type AnchorPropsType = ComponentPropsWithoutRef<'a'>
+type AsidePropsType = ComponentPropsWithoutRef<'aside'>
+type InputPropsType = ComponentPropsWithoutRef<'input'>
 
 // This file is required to use MDX in `app` directory.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -30,7 +34,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
             </BaseLink>
         ),
         img: (props) => (<BaseImage {...props as ImageProps} />),
-        aside: ({ children, ...props }) => {
+        aside: ({ children, ...props }: AsidePropsType) => {
             const tocHighlightProps = {
                 headingsToObserve: 'h1, h2, h3',
                 rootMargin: '-5% 0px -50% 0px',
@@ -51,6 +55,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
                 </>
             )
         },
+        input: (props: InputPropsType) => props?.type === 'checkbox' ? (<BaseCheckbox {...props} />) : (<input {...props} />),
         ...components,
     }
 }

@@ -7,6 +7,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 import { transformerNotationDiff } from "@shikijs/transformers";
 import rehypeSlug from "rehype-slug";
 import { remarkTableOfContents } from "remark-table-of-contents";
+import remarkGfm from "remark-gfm";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = (phase/*: string*/)  => {
@@ -44,12 +45,21 @@ const nextConfig = (phase/*: string*/)  => {
     maxDepth: 3,
   }
 
+  /** @type {import('remark-gfm').Options} */
+  const remarkGfmOptions = {
+    singleTilde: false,
+  }
+
   const withMDX = createMdx({
     extension: /\.mdx?$/,
     options: {
       // optional remark and rehype plugins
-      remarkPlugins: [[remarkTableOfContents, remarkTableOfContentsOptions]],
+      remarkPlugins: [[remarkGfm, remarkGfmOptions],[remarkTableOfContents, remarkTableOfContentsOptions]],
       rehypePlugins: [rehypeSlug, [rehypePrettyCode, rehypePrettyCodeOptions], rehypeMdxImportMedia],
+      remarkRehypeOptions: {
+        footnoteLabel: 'Notes',
+        footnoteLabelTagName: 'span',
+      },
     },
   })
 
